@@ -1,0 +1,4 @@
+DB_NAME=rental-app-db
+DB_PASSWORD=thisisamovierentalapplication
+DB_HOST=postgres
+DB_PORT=5432

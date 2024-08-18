@@ -7,6 +7,9 @@ services:
         - DEV=true
       context: .
       dockerfile: Dockerfile
+    env_file:
+      - .envs/.local/django.sample
+      - .envs/.local/postgres.sample
     ports:
       - 8000:8000
     volumes:

@@ -10,22 +10,33 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from dotenv import dotenv_values
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+if os.path.exists(".env/.local/postgres") and os.path.exists(".env/.local/django"):
+    config = {
+        **dotenv_values(".env/.local/postgres"),
+        **dotenv_values(".env/.local/django"),
+    }
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-hj#0h&=^jwn074xe!h)@03b@@ztof@ho=%xox8n&6#gal7!8n$"
+SECRET_KEY = os.getenv(
+    "SECRET_KEY", default=config.get("SECRET_KEY", "django-insecure-hj#0h&=^jwn074xe!h)@03b@@ztof@ho=%xox8n&6#gal7!8n$")
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["0.0.0.0", "localhost", "127.0.0.0"]
+HOSTS: list = config.get("ALLOWED_HOSTS", "").split(",") if config.get("ALLOWED_HOSTS") else []
+ALLOWED_HOSTS: list = [host.strip() for host in HOSTS if host.strip()]
 
 
 # Application definition
@@ -77,11 +88,11 @@ WSGI_APPLICATION = "movies.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "rental-app-db",
-        "USER": "rental-user",
-        "PASSWORD": "thisisamovierentalapplication",
-        "HOST": "postgres",
-        "PORT": "5432",
+        "NAME": config.get("DB_NAME", "rental-app-db"),
+        "USER": config.get("DB_USER", "rental-user"),
+        "PASSWORD": config.get("DB_PASSWORD", "thisisamovierentalapplication"),
+        "HOST": config.get("DB_HOST", "postgres"),
+        "PORT": config.get("DB_PORT", "5432"),
     }
 }
 

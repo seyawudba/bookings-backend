@@ -1,0 +1,2 @@
+SECRET_KEY=!4%fus1+_z$+50cp=_q=d$=zwb&9)@^i^7k-i^2j4e6^kvz@r$
+ALLOWED_HOSTS ="0.0.0.0,localhost,127.0.0.0"
