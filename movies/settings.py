@@ -28,7 +28,9 @@ if os.path.exists(".env/.local/postgres") and os.path.exists(".env/.local/django
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config.get("SECRET_KEY", "django-insecure-hj#0h&=^jwn074xe!h)@03b@@ztof@ho=%xox8n&6#gal7!8n$")
+SECRET_KEY = os.getenv(
+    "SECRET_KEY", default=config.get("SECRET_KEY", "django-insecure-hj#0h&=^jwn074xe!h)@03b@@ztof@ho=%xox8n&6#gal7!8n$")
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
