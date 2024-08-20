@@ -30,7 +30,7 @@ services:
       POSTGRES_DB: rental-app-db
       POSTGRES_PASSWORD: thisisamovierentalapplication
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U rental-user"]
+      test: ["CMD-SHELL", "pg_isready -U rental-user -d rental-app-db"]
       interval: 1m30s
       timeout: 10s
       retries: 3
