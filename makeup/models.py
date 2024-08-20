@@ -23,10 +23,15 @@ class MakeUpArtist(models.Model):
         return self.user.username
 
 
-class CertificationsAndPortfolio(models.Model):
+class CertificateImage(models.Model):
     title = models.CharField(max_length=255)
     artist = models.ForeignKey(MakeUpArtist, on_delete=models.CASCADE)
     cert_image = models.ImageField(upload_to="makeup/certifications/")
+
+
+class PortfolioImage(models.Model):
+    title = title = models.CharField(max_length=255)
+    artist = models.ForeignKey(MakeUpArtist, on_delete=models.CASCADE)
     portfolio_image = models.ImageField(upload_to="makeup/portfolios/")
 
 
