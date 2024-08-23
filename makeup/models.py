@@ -17,31 +17,36 @@ class Promotion(models.Model):
         return self.title
 
 
-class MakeUpArtist(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    bio_experience = models.CharField(max_length=255)
-    social_media_link = models.URLField(max_length=200, blank=True, null=True)
-
-    def __str__(self) -> str:
-        return self.user.username
+class Profile(models.Model):
+    artist_image = models.ImageField(upload_to="makeup/artists/")
 
 
-class CertificateImage(models.Model):
+class Certificate(models.Model):
     title = models.CharField(max_length=255)
-    artist = models.ForeignKey(MakeUpArtist, on_delete=models.CASCADE)
     cert_image = models.ImageField(upload_to="makeup/certifications/")
 
     def __str__(self) -> str:
         return self.title
 
 
-class PortfolioImage(models.Model):
+class Portfolio(models.Model):
     title = title = models.CharField(max_length=255)
-    artist = models.ForeignKey(MakeUpArtist, on_delete=models.CASCADE)
     portfolio_image = models.ImageField(upload_to="makeup/portfolios/")
 
     def __str__(self) -> str:
         return self.title
+
+
+class MakeUpArtist(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    bio_experience = models.CharField(max_length=255)
+    social_media_link = models.URLField(max_length=200, blank=True, null=True)
+    profile_pic = models.OneToOneField(Profile, on_delete=models.SET_NULL, null=True)
+    certificate = models.ForeignKey(Certificate, on_delete=models.SET_NULL, null=True)
+    portfolio = models.ForeignKey(Portfolio, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self) -> str:
+        return self.user.username
 
 
 class Service(models.Model):
@@ -57,6 +62,7 @@ class Service(models.Model):
     availability = models.CharField(max_length=20, choices=AVAILABILITY, default=SERVICE_AVAILABLE)
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1000)
+    provider = models.OneToOneField(MakeUpArtist, on_delete=models.CASCADE)
     pricing = models.DecimalField(max_digits=6, decimal_places=2)
     promotions = models.ManyToManyField(Promotion)
     duration = models.DurationField()
@@ -67,19 +73,22 @@ class Service(models.Model):
 
 class Client(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    profile_pic = models.OneToOneField(Profile, on_delete=models.SET_NULL, null=True)
 
     def __str__(self) -> str:
         return self.user
 
 
 class Booking(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True, blank=True)
+    phone_number = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255, null=True, blank=True)
     location = models.CharField(max_length=255)
     date_needed = models.DateField()
     time_booked = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return self.client.user
+        return f"{self.client.user if self.client else 'Anonymous'} - {self.date_needed}"
 
 
 class Product(models.Model):
@@ -117,6 +126,7 @@ class BlogArticle(models.Model):
     CONTENT_TYPE = ((BLOG, "BLOG"), (ARTICLE, "ARTICLE"))
     title = models.CharField(max_length=55)
     content = models.CharField(max_length=300)
+    author = models.ForeignKey(MakeUpArtist, on_delete=models.CASCADE)
     content_type = models.CharField(max_length=15, choices=CONTENT_TYPE, default=ARTICLE)
     date_submitted = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)

@@ -3,15 +3,17 @@ from django.contrib import admin
 from .models import (
     BlogArticle,
     Booking,
-    CertificateImage,
+    Certificate,
     Client,
     ContactForm,
     MakeUpArtist,
-    PortfolioImage,
+    Portfolio,
     Product,
     Promotion,
     Review,
     Service,
+    Tag,
+    TaggedItem,
 )
 
 # Register your models here.
@@ -20,7 +22,6 @@ from .models import (
 @admin.register(MakeUpArtist)
 class MakeUpArtistAdmin(admin.ModelAdmin):
     search_fields = ["user"]
-    autocomplete_fields = ["user"]
     list_select_related = ["user"]
 
 
@@ -29,10 +30,10 @@ class PromoAdmin(admin.ModelAdmin):
     list_display = ["title", "start", "end", "expired"]
 
 
-@admin.register(CertificateImage, PortfolioImage)
+@admin.register(Certificate, Portfolio)
 class UserFilesAdmin(admin.ModelAdmin):
     search_fields = ["artist"]
-    list_display = ["title", "artist"]
+    list_display = ["title"]
 
 
 @admin.register(Service)
@@ -74,3 +75,13 @@ class BlogAdmin(admin.ModelAdmin):
 @admin.register(ContactForm)
 class ContactAdmin(admin.ModelAdmin):
     list_display = ["name", "email"]
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ["label"]
+
+
+@admin.register(TaggedItem)
+class TaggedItemAdmin(admin.ModelAdmin):
+    pass
