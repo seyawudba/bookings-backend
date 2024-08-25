@@ -41,9 +41,6 @@ class MakeUpArtist(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     bio_experience = models.CharField(max_length=255)
     social_media_link = models.URLField(max_length=200, blank=True, null=True)
-    profile_pic = models.OneToOneField(Profile, on_delete=models.SET_NULL, null=True)
-    certificate = models.ForeignKey(Certificate, on_delete=models.SET_NULL, null=True)
-    portfolio = models.ForeignKey(Portfolio, on_delete=models.SET_NULL, null=True)
 
     def __str__(self) -> str:
         return self.user.username
