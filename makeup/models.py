@@ -9,16 +9,16 @@ from django.db import models
 class Promotion(models.Model):
     title = models.CharField(max_length=55)
     description = models.CharField(max_length=300)
-    start = models.DateTimeField()
-    end = models.DateTimeField()
-    expired = models.BooleanField(default=True)
+    start = models.DateTimeField(null=True, blank=True)
+    end = models.DateTimeField(null=True, blank=True)
+    expired = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.title
 
 
 class Profile(models.Model):
-    artist_image = models.ImageField(upload_to="makeup/artists/")
+    image = models.ImageField(upload_to="makeup/artists/")
 
 
 class Certificate(models.Model):
