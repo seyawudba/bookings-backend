@@ -19,14 +19,14 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 
 admin.site.site_header = "BOOKINGS ADMINISTRATION"
 admin.site.index_title = "BOOKINGS MANAGEMENT"
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path("makeup/", include(makeup.urls)),
+    path("makeup/", include("makeup.urls")),
 ]
 
 if settings.DEBUG:
