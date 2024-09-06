@@ -3,9 +3,12 @@ from rest_framework import routers
 
 from makeup import views
 
-promotion = routers.DefaultRouter()
-promotion.register(r"promotions", views.PromotionViewSet, basename="promotion")
+router = routers.DefaultRouter()
+router.register(r"promotions", views.PromotionViewSet, basename="promotion")
+router.register(r"certificate", views.CertificateViewSet, basename="certificate")
+router.register(r"portfolio", views.PortfolioViewSet, basename="porfolio")
+
 
 urlpatterns = urlpatterns = [
-    path("", include(promotion.urls)),
+    path("", include(router.urls)),
 ]

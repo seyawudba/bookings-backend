@@ -3,6 +3,8 @@ django~=5.0.7
 djangorestframework~=3.15.2
 djangorestframework_simplejwt
 django-celery-beat~=2.6
+django-filter==24.3
 djoser
+drf-nested-routers==0.94.1
 pillow
 python-dotenv~=1.0.1
