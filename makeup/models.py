@@ -21,9 +21,19 @@ class Profile(models.Model):
     artist_image = models.ImageField(upload_to="makeup/artists/")
 
 
+class MakeUpArtist(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    bio_experience = models.CharField(max_length=255)
+    social_media_link = models.URLField(max_length=200, blank=True, null=True)
+
+    def __str__(self) -> str:
+        return self.user.username
+
+
 class Certificate(models.Model):
     title = models.CharField(max_length=255)
     cert_image = models.ImageField(upload_to="makeup/certifications/")
+    artist = models.ForeignKey(MakeUpArtist, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.title
@@ -32,18 +42,10 @@ class Certificate(models.Model):
 class Portfolio(models.Model):
     title = title = models.CharField(max_length=255)
     portfolio_image = models.ImageField(upload_to="makeup/portfolios/")
+    artist = models.ForeignKey(MakeUpArtist, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.title
-
-
-class MakeUpArtist(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    bio_experience = models.CharField(max_length=255)
-    social_media_link = models.URLField(max_length=200, blank=True, null=True)
-
-    def __str__(self) -> str:
-        return self.user.username
 
 
 class Service(models.Model):
