@@ -24,6 +24,11 @@ class PromotionViewSet(viewsets.ModelViewSet):
 class CertificateViewSet(viewsets.ModelViewSet):
     serializer_class = CertificateSerializer
 
+    def get_serializer_context(self):
+        user_id = self.request.user.id
+        artist = MakeUpArtist.objects.get(user_id=user_id)
+        return {"artist_id": artist}
+
     def get_queryset(self):
         # user_id = self.request.user.id
         artist_id = self.request.query_params.get("artist__id")
@@ -34,6 +39,11 @@ class CertificateViewSet(viewsets.ModelViewSet):
 
 class PortfolioViewSet(viewsets.ModelViewSet):
     serializer_class = PortfolioSerializer
+
+    def get_serializer_context(self):
+        user_id = self.request.user.id
+        artist = MakeUpArtist.objects.get(user_id=user_id)
+        return {"artist_id": artist}
 
     def get_queryset(self):
         # user_id = self.request.user.id

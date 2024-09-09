@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from djoser import serializers
+from rest_framework import serializers
 
 from makeup.models import Certificate, MakeUpArtist, Portfolio, Promotion
 
@@ -13,15 +13,29 @@ class PromotionSerializer(serializers.ModelSerializer):
 
 
 class CertificateSerializer(serializers.ModelSerializer):
+    artist = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Certificate
-        fields = ["title", "cert_image"]
+        fields = ["title", "artist", "cert_image"]
+
+    def create(self, validated_data):
+        artist_id = self.context["artist_id"]
+
+        return Certificate.objects.create(artist=artist_id, **validated_data)
 
 
 class PortfolioSerializer(serializers.ModelSerializer):
+    artist_id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Portfolio
-        fields = ["title", "cert_image"]
+        fields = ["title", "artist_id", "portfolio_image"]
+
+    def create(self, validated_data):
+        artist_id = self.context["artist_id"]
+
+        return Portfolio.objects.create(artist=artist_id, **validated_data)
 
 
 class MakeUpArtistSerializer(serializers.ModelSerializer):
