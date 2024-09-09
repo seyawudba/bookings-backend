@@ -26,7 +26,12 @@ admin.site.index_title = "BOOKINGS MANAGEMENT"
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path("makeup/", include(makeup.urls)),
+    path("makeup/", include("makeup.urls")),
+]
+
+# auth_endpoints
+urlpatterns += [
+    path(r"auth/", include("djoser.urls")),
 ]
 
 if settings.DEBUG:
