@@ -8,6 +8,7 @@ router.register(r"promotions", views.PromotionViewSet, basename="promotion")
 router.register(r"certificate", views.CertificateViewSet, basename="certificate")
 router.register(r"portfolio", views.PortfolioViewSet, basename="porfolio")
 router.register(r"artist", views.ArtistViewSet, basename="artist")
+router.register(r"service", views.ServiceViewSet, basename="service")
 
 
 urlpatterns = [

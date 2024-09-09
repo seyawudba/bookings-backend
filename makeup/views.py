@@ -5,12 +5,14 @@ from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from makeup.models import Certificate, MakeUpArtist, Portfolio, Promotion
+from makeup.models import Certificate, MakeUpArtist, Portfolio, Promotion, Service
+from makeup.permissions import IsMakeUpArtist
 from makeup.serializers import (
     CertificateSerializer,
     MakeUpArtistSerializer,
     PortfolioSerializer,
     PromotionSerializer,
+    ServiceSerializer,
 )
 
 
@@ -77,3 +79,9 @@ class ArtistViewSet(viewsets.ModelViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data)
+
+
+class ServiceViewSet(viewsets.ModelViewSet):
+    serializer_class = ServiceSerializer
+    queryset = Service.objects.all()
+    permission_classes = [IsMakeUpArtist]

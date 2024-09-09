@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from makeup.models import Certificate, MakeUpArtist, Portfolio, Promotion
+from makeup.models import Certificate, MakeUpArtist, Portfolio, Promotion, Service
 
 user = get_user_model()
 
@@ -49,3 +49,9 @@ class MakeUpArtistSerializer(serializers.ModelSerializer):
         user_id = self.context["user_id"]
 
         return MakeUpArtist.objects.create(user_id=user_id, **validated_data)
+
+
+class ServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Service
+        fields = ["availability", "name", "description", "provider", "pricing", "promotions", "duration"]
