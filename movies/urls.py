@@ -29,6 +29,11 @@ urlpatterns = [
     path("makeup/", include("makeup.urls")),
 ]
 
+# auth_endpoints
+urlpatterns += [
+    path(r"auth/", include("djoser.urls")),
+]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += debug_toolbar_urls()

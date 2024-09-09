@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "debug_toolbar",
     "rest_framework",
+    "djoser",
     "core",
     "makeup",
 ]
@@ -168,3 +169,11 @@ TESTING = "test" in sys.argv
 #         "debug_toolbar.middleware.DebugToolbarMiddleware",
 #         *MIDDLEWARE,
 #     ]
+
+
+DJOSER = {
+    "SERIALIZERS": {
+        "user_create": "core.serializers.UserCreateSerializer",
+        "current_user": "core.serializers.UserSerializer",
+    }
+}
