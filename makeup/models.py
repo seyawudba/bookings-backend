@@ -23,7 +23,7 @@ class Profile(models.Model):
 
 class MakeUpArtist(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    bio_experience = models.CharField(max_length=255)
+    bio_experience = models.CharField(max_length=255, blank=True, null=True)
     social_media_link = models.URLField(max_length=200, blank=True, null=True)
 
     def __str__(self) -> str:
