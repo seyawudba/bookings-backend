@@ -39,7 +39,8 @@ if settings.DEBUG:
     urlpatterns += debug_toolbar_urls()
 
 
-# if not settings.TESTING:
-#     urlpatterns = [
-#         *urlpatterns,
-#     ] + debug_toolbar_urls()
+# authentication
+urlpatterns += [
+    path("auth/", include("djoser.urls")),
+    path("auth/", include("djoser.urls.jwt")),
+]
