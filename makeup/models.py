@@ -6,6 +6,20 @@ from django.db import models
 # Create your models here.
 
 
+class Image(models.Model):
+    image = models.ImageField(upload_to="makeup/")
+
+    def delete(self, using=..., keep_parents=...):
+        if not self.image:
+            return super().delete(using, keep_parents)
+        else:
+            self.image.delete(save=False)
+            return super().delete(using, keep_parents)
+
+    class Meta:
+        abstract = True
+
+
 class Promotion(models.Model):
     title = models.CharField(max_length=55)
     description = models.CharField(max_length=300)
@@ -17,11 +31,11 @@ class Promotion(models.Model):
         return self.title
 
 
-class Profile(models.Model):
-    artist_image = models.ImageField(upload_to="makeup/artists/")
+class Profile(Image):
+    image = models.ImageField(upload_to="makeup/artists/", blank=True, null=True)
 
 
-class MakeUpArtist(models.Model):
+class MakeUpArtist(Image):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     bio_experience = models.CharField(max_length=255, blank=True, null=True)
     social_media_link = models.URLField(max_length=200, blank=True, null=True)
@@ -30,18 +44,18 @@ class MakeUpArtist(models.Model):
         return self.user.username
 
 
-class Certificate(models.Model):
+class Certificate(Image):
     title = models.CharField(max_length=255)
-    cert_image = models.ImageField(upload_to="makeup/certifications/")
+    image = models.ImageField(upload_to="makeup/certifications/", blank=True, null=True)
     artist = models.ForeignKey(MakeUpArtist, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.title
 
 
-class Portfolio(models.Model):
+class Portfolio(Image):
     title = title = models.CharField(max_length=255)
-    portfolio_image = models.ImageField(upload_to="makeup/portfolios/")
+    image = models.ImageField(upload_to="makeup/portfolios/", blank=True, null=True)
     artist = models.ForeignKey(MakeUpArtist, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
